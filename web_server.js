@@ -39,6 +39,7 @@ wss.on('connection', function connection(ws) {
     console.log('client connected');
   } else {
     console.log('wtf? users > 2!');
+    ws.destroy();
   }
 });
 

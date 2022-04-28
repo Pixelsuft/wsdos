@@ -11,16 +11,20 @@ if (process.argv.length <= 3) {
 const ADDRESS = process.argv[2];
 const HOST = process.argv[3].split(':')[0];
 const PORT = parseInt(process.argv[3].split(':')[1], 10);
-var last_port;
 
 const ws = new WebSocket(ADDRESS);
 const server = dgram.createSocket('udp4');
+var last_port;
 
 server.on('message', function(msg, rinfo) {
   ws.send(msg);
   if (!last_port)
     last_port = rinfo.port;
   // console.log(`[${rinfo.address}:${rinfo.port}] dosbox sent: ${msg}`);
+});
+
+server.on('listening', function() {
+  console.log(`listening at [${HOST}:${PORT}]`);
 });
 
 ws.on('message', function message(data) {
@@ -37,6 +41,11 @@ ws.on('message', function message(data) {
   }
 });
 
+ws.on('close', function close() {
+  console.log(`disconnected from web at [${ADDRESS}]`);
+});
+
 ws.on('open', function() {
+  console.log(`connected to [${ADDRESS}]`);
   server.bind(PORT);
 });

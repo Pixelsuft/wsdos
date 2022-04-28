@@ -30,11 +30,17 @@ ws.on('message', function message(data) {
   // console.log(`[${ADDRESS}] web sent: ${data}`);
 });
 
+ws.on('close', function close() {
+  console.log(`disconnected from web at [${ADDRESS}]`);
+});
+
 ws.on('open', function() {
   client.connect(PORT, HOST, function(err) {
     if (err) {
       console.log(`could not connect to dosbox at [${HOST}:${PORT}]:\n${err}`);
       client.close();
+    } else {
+      console.log(`connected to dosbox at [${HOST}:${PORT}]`);
     }
   });
 });

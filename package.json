@@ -4,6 +4,7 @@
   "description": "WS Proxy for IPX DOSBox",
   "main": "dos_client.js",
   "scripts": {
+	"start": "node web_server $PORT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
